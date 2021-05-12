@@ -3,8 +3,12 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 15vmin;
   pointer-events: none;
+}
+
+p {
+  font-family: 'Montserrat', sans-serif;
 }
 
 @media (prefers-reduced-motion: no-preference) {
