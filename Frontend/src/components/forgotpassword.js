@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Card, Form, Button, Container } from 'react-bootstrap';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import anime from "animejs";  
-import '../css/login.css';
+import '../css/forgot.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
