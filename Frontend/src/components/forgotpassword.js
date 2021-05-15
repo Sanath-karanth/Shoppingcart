@@ -85,7 +85,6 @@ const ForgotPage = (props) => {
                     <div className="w-100 text-center mt-2 mb-2 logintext">
                         New Account <Link to="/">Sign Up</Link>
                     </div>
-                    
                 </Card.Body>
             </Card>
         </div>
