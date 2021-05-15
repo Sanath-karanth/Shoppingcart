@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Card, Form, Button, Container } from 'react-bootstrap';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import anime from "animejs";  
-import '../css/login.css';
+import '../css/signup.css';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const LoginPage = (props) => {
+const SignupPage = (props) => {
     const classes = useStyles();
     const theme = useTheme();
 
@@ -71,29 +71,31 @@ const LoginPage = (props) => {
         <div className="w-100 pb-2"  style={{maxWidth:'390px'}}>
             <Card>
                 <Card.Body>
-                    <h2 className="text-center mb-3 Loginheadtext">Log In</h2>
+                    <h2 className="text-center mb-3 signuptext">Sign Up</h2>
                     <Form>
                         <Form.Group id="username">
                             <Form.Label className="labeltext">Username:</Form.Label>
                             <Form.Control type="text" required></Form.Control>
                         </Form.Group>
+                        <Form.Group id="email">
+                            <Form.Label className="labeltext">Email:</Form.Label>
+                            <Form.Control type="email" required></Form.Control>
+                        </Form.Group>
                         <Form.Group id="password">
                             <Form.Label className="labeltext">Password:</Form.Label>
                             <Form.Control type="password" required></Form.Control>
                         </Form.Group>
-                        <Button type="submit" className="w-100 mt-2 mb-2 buttontext">Login</Button>
+                        <Button type="submit" className="w-100 mt-2 mb-2 buttontext">Sign Up</Button>
                     </Form>
                     <div className="w-100 text-center mt-2 mb-2 logintext">
-                        New Account <Link to="/">Sign Up</Link>
-                    </div>
-                    <div className="w-100 text-center mt-2 mb-2 logintext">
-                        <Link to="/forgot"> Forgot Password?</Link>
+                        Already have an account? <Link to="/login">Log In</Link>
                     </div>
                 </Card.Body>
             </Card>
+           
         </div>
       </Container>
     </Fragment>
   );
 }
-export default LoginPage;
+export default SignupPage;

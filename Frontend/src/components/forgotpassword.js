@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const LoginPage = (props) => {
+const ForgotPage = (props) => {
     const classes = useStyles();
     const theme = useTheme();
 
@@ -71,24 +71,21 @@ const LoginPage = (props) => {
         <div className="w-100 pb-2"  style={{maxWidth:'390px'}}>
             <Card>
                 <Card.Body>
-                    <h2 className="text-center mb-3 Loginheadtext">Log In</h2>
+                    <h2 className="text-center mb-3 passwordreset">Password Reset</h2>
                     <Form>
-                        <Form.Group id="username">
-                            <Form.Label className="labeltext">Username:</Form.Label>
-                            <Form.Control type="text" required></Form.Control>
+                        <Form.Group id="email">
+                            <Form.Label className="labeltext">Email:</Form.Label>
+                            <Form.Control type="email" required></Form.Control>
                         </Form.Group>
-                        <Form.Group id="password">
-                            <Form.Label className="labeltext">Password:</Form.Label>
-                            <Form.Control type="password" required></Form.Control>
-                        </Form.Group>
-                        <Button type="submit" className="w-100 mt-2 mb-2 buttontext">Login</Button>
+                        <Button type="submit" className="w-100 mt-2 mb-2 buttontext">Reset Password</Button>
                     </Form>
+                    <div className="w-100 text-center mt-2 mb-2 logintext">
+                        <Link to="/login">Login</Link>
+                    </div>
                     <div className="w-100 text-center mt-2 mb-2 logintext">
                         New Account <Link to="/">Sign Up</Link>
                     </div>
-                    <div className="w-100 text-center mt-2 mb-2 logintext">
-                        <Link to="/forgot"> Forgot Password?</Link>
-                    </div>
+                    
                 </Card.Body>
             </Card>
         </div>
@@ -96,4 +93,4 @@ const LoginPage = (props) => {
     </Fragment>
   );
 }
-export default LoginPage;
+export default ForgotPage;

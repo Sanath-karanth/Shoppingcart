@@ -1,13 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
+import SignupPage from './components/signup';
 import LoginPage from './components/login';
+import ForgotPage from './components/forgotpassword';
 
 function App() {
   return (
     <Switch>
       <Route exact path="/">
+            <SignupPage />
+      </Route>
+      <Route exact path="/login">
             <LoginPage />
+      </Route>
+      <Route exact path="/forgot">
+            <ForgotPage />
       </Route>
       </Switch>
   );
