@@ -18,36 +18,87 @@ const LoginPage = (props) => {
     const theme = useTheme();
 
     const Welcomeanimation = () => {
-        let textWrapper = document.querySelector('.ml11 .welcometexts');
-        textWrapper.innerHTML = textWrapper.textContent.replace(/([^\x00 \x80]|\w)/g, "<span class='welcometext'>$&</span>");
+        // let textWrapper = document.querySelector('.ml11 .welcometexts');
+        // textWrapper.innerHTML = textWrapper.textContent.replace(/([^\x00 \x80]|\w)/g, "<span class='welcometext'>$&</span>");
+
+        // anime.timeline({loop: true})
+        // .add({
+        //     targets: '.ml11 .line',
+        //     scaleY: [0,1],
+        //     opacity: [0.5,1],
+        //     easing: "easeOutExpo",
+        //     duration: 700
+        // })
+        // .add({
+        //     targets: '.ml11 .line',
+        //     translateX: [0, document.querySelector('.ml11 .welcometexts').getBoundingClientRect().width + 10],
+        //     easing: "easeOutExpo",
+        //     duration: 700,
+        //     delay: 100
+        // }).add({
+        //     targets: '.ml11 .welcometext',
+        //     opacity: [0,1],
+        //     easing: "easeOutExpo",
+        //     duration: 600,
+        //     offset: '-=775',
+        //     delay: (el, i) => 34 * (i+1)
+        // }).add({
+        //     targets: '.ml11',
+        //     opacity: 0,
+        //     duration: 1000,
+        //     easing: "easeOutExpo",
+        //     delay: 1000
+        // });
+
+
+
+        // var textWrapper = document.querySelector('.ml1 .welcometexts');
+        // textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='welcometext'>$&</span>");
+
+        // anime.timeline({loop: true})
+        // .add({
+        //     targets: '.ml1 .welcometext',
+        //     scale: [0.3,1],
+        //     opacity: [0,1],
+        //     translateZ: 0,
+        //     easing: "easeOutExpo",
+        //     duration: 600,
+        //     delay: (el, i) => 70 * (i+1)
+        // }).add({
+        //     targets: '.ml1 .line',
+        //     scaleX: [0,1],
+        //     opacity: [0.5,1],
+        //     easing: "easeOutExpo",
+        //     duration: 700,
+        //     offset: '-=875',
+        //     delay: (el, i, l) => 80 * (l - i)
+        // }).add({
+        //     targets: '.ml1',
+        //     opacity: 0,
+        //     duration: 1000,
+        //     easing: "easeOutExpo",
+        //     delay: 1000
+        // });
+
+        var textWrapper = document.querySelector('.wtext');
+        textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
         anime.timeline({loop: true})
         .add({
-            targets: '.ml11 .line',
-            scaleY: [0,1],
-            opacity: [0.5,1],
-            easing: "easeOutExpo",
-            duration: 700
-        })
-        .add({
-            targets: '.ml11 .line',
-            translateX: [0, document.querySelector('.ml11 .welcometexts').getBoundingClientRect().width + 10],
-            easing: "easeOutExpo",
-            duration: 700,
-            delay: 100
-        }).add({
-            targets: '.ml11 .welcometext',
+            targets: '.wtext .letter',
+            translateX: [40,0],
+            translateZ: 0,
             opacity: [0,1],
             easing: "easeOutExpo",
-            duration: 600,
-            offset: '-=775',
-            delay: (el, i) => 34 * (i+1)
+            duration: 1200,
+            delay: (el, i) => 500 + 30 * i
         }).add({
-            targets: '.ml11',
-            opacity: 0,
-            duration: 1000,
-            easing: "easeOutExpo",
-            delay: 1000
+            targets: '.wtext .letter',
+            translateX: [0,-30],
+            opacity: [1,0],
+            easing: "easeInExpo",
+            duration: 1100,
+            delay: (el, i) => 100 + 30 * i
         });
     }
 
@@ -64,7 +115,8 @@ const LoginPage = (props) => {
             <h1 className="ml11 pb-3">
             <span className="text-wrapper">
                 <span className="line line1"></span>
-                <span className="welcometexts">Welcome to K-Mart</span>
+                <span className="wtext">Welcome to K-Mart</span>
+                <span class="line line2"></span>
             </span>
             </h1>
         </div>
