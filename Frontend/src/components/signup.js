@@ -1,8 +1,9 @@
-import React, { useState,Fragment,useEffect } from 'react';
-import { Link } from "react-router-dom";
-import { Card, Form, Button, Container } from 'react-bootstrap';
+import React, { useState,Fragment,useEffect,useRef } from 'react';
+import { Card, Form, Button, Container,Alert } from 'react-bootstrap';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import anime from "animejs";  
+import anime from "animejs";
+import { useAuth } from "../contexts/AuthContext"
+import { Link, useHistory } from "react-router-dom"  
 import '../css/signup.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +17,32 @@ const useStyles = makeStyles((theme) => ({
 const SignupPage = (props) => {
     const classes = useStyles();
     const theme = useTheme();
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const passwordConfirmRef = useRef()
+    const { signup } = useAuth()
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const history = useHistory()
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+    
+        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+          return setError("Passwords do not match")
+        }
+    
+        try {
+          setError("")
+          setLoading(true)
+          await signup(emailRef.current.value, passwordRef.current.value)
+          history.push("/")
+        } catch {
+          setError("Failed to create an account")
+        }
+    
+        setLoading(false)
+      }
 
     const Welcomeanimation = () => {
         var textWrapper = document.querySelector('.wtext');
@@ -62,20 +89,36 @@ const SignupPage = (props) => {
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-3 signuptext">Sign Up</h2>
-                    <Form>
-                        <Form.Group id="username">
-                            <Form.Label className="labeltext">Username:</Form.Label>
-                            <Form.Control type="text" required></Form.Control>
-                        </Form.Group>
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group id="email">
-                            <Form.Label className="labeltext">Email:</Form.Label>
-                            <Form.Control type="email" required></Form.Control>
+                            <Form.Label className="labeltext">Email-ID:</Form.Label>
+                            <Form.Control type="email" 
+                                          placeholder="Enter your Email-ID" 
+                                          className="placeholdertext"
+                                          ref={emailRef} 
+                                          required></Form.Control>
                         </Form.Group>
                         <Form.Group id="password">
                             <Form.Label className="labeltext">Password:</Form.Label>
-                            <Form.Control type="password" required></Form.Control>
+                            <Form.Control type="password" 
+                                          placeholder="Enter your password" 
+                                          className="placeholdertext" 
+                                          ref={passwordRef}
+                                          required></Form.Control>
                         </Form.Group>
-                        <Button type="submit" className="w-100 mt-2 mb-2 buttontext">Sign Up</Button>
+                        <Form.Group id="confirmpassword">
+                            <Form.Label className="labeltext">Confirm password:</Form.Label>
+                            <Form.Control type="password" 
+                                          placeholder="Re-enter your password" 
+                                          className="placeholdertext"
+                                          ref={passwordConfirmRef} 
+                                          required></Form.Control>
+                        </Form.Group>
+                        <Button type="submit" 
+                                disabled={loading} 
+                                className="w-100 mt-2 mb-2 buttontext">Sign Up
+                        </Button>
                     </Form>
                     <div className="w-100 text-center mt-2 mb-2 logintext">
                         Already have an account? <Link to="/login">Log In</Link>

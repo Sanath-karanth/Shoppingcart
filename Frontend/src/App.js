@@ -1,23 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
+import { AuthProvider } from "./contexts/AuthContext"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import SignupPage from './components/signup';
 import LoginPage from './components/login';
 import ForgotPage from './components/forgotpassword';
+import DashboardPage from './components/dashboard';
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
-    <Switch>
-      <Route exact path="/">
-            <SignupPage />
-      </Route>
-      <Route exact path="/login">
-            <LoginPage />
-      </Route>
-      <Route exact path="/forgot">
-            <ForgotPage />
-      </Route>
-      </Switch>
+      <Router>
+         <AuthProvider>
+            <Switch>
+                  <PrivateRoute exact path="/" component={DashboardPage}></PrivateRoute>
+                  <Route  path="/login" component={LoginPage}></Route>
+                  <Route  path="/forgot" component={ForgotPage}></Route>
+                  <Route  path="/signup" component={SignupPage}></Route>
+            </Switch>
+         </AuthProvider>
+      </Router>
   );
 }
 

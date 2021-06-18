@@ -1,8 +1,9 @@
-import React, { useState,Fragment,useEffect } from 'react';
-import { Link } from "react-router-dom";
-import { Card, Form, Button, Container } from 'react-bootstrap';
+import React, { useState,Fragment,useEffect,useRef } from 'react';
+import { Card, Form, Button, Container,Alert } from 'react-bootstrap';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import anime from "animejs";  
+import anime from "animejs";
+import { useAuth } from "../contexts/AuthContext"
+import { Link, useHistory } from "react-router-dom"   
 import '../css/login.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +17,27 @@ const useStyles = makeStyles((theme) => ({
 const LoginPage = (props) => {
     const classes = useStyles();
     const theme = useTheme();
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const { login } = useAuth()
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const history = useHistory()
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+    
+        try {
+          setError("")
+          setLoading(true)
+          await login(emailRef.current.value, passwordRef.current.value)
+          history.push("/")
+        } catch {
+          setError("Invalid Email/Password, please try again")
+        }
+    
+        setLoading(false)
+      }
 
     const Welcomeanimation = () => {
         // let textWrapper = document.querySelector('.ml11 .welcometexts');
@@ -116,7 +138,7 @@ const LoginPage = (props) => {
             <span className="text-wrapper">
                 <span className="line line1"></span>
                 <span className="wtext">Welcome to K-Mart</span>
-                <span class="line line2"></span>
+                <span className="line line2"></span>
             </span>
             </h1>
         </div>
@@ -124,19 +146,31 @@ const LoginPage = (props) => {
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-3 Loginheadtext">Log In</h2>
-                    <Form>
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group id="username">
-                            <Form.Label className="labeltext">Username:</Form.Label>
-                            <Form.Control type="text" required></Form.Control>
+                            <Form.Label className="labeltext">Email-ID:</Form.Label>
+                            <Form.Control type="email" 
+                                          placeholder="Enter your Email-ID" 
+                                          className="placeholdertext" 
+                                          ref={emailRef}
+                                          required></Form.Control>
                         </Form.Group>
                         <Form.Group id="password">
                             <Form.Label className="labeltext">Password:</Form.Label>
-                            <Form.Control type="password" required></Form.Control>
+                            <Form.Control type="password" 
+                                          placeholder="Enter your password" 
+                                          className="placeholdertext"
+                                          ref={passwordRef} 
+                                          required></Form.Control>
                         </Form.Group>
-                        <Button type="submit" className="w-100 mt-2 mb-2 buttontext">Login</Button>
+                        <Button type="submit"
+                                disabled={loading} 
+                                className="w-100 mt-2 mb-2 buttontext">Login
+                        </Button>
                     </Form>
                     <div className="w-100 text-center mt-2 mb-2 logintext">
-                        New Account <Link to="/">Sign Up</Link>
+                        New Account <Link to="/signup">Sign Up</Link>
                     </div>
                     <div className="w-100 text-center mt-2 mb-2 logintext">
                         <Link to="/forgot"> Forgot Password?</Link>

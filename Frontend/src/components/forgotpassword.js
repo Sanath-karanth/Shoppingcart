@@ -1,8 +1,9 @@
-import React, { useState,Fragment,useEffect } from 'react';
-import { Link } from "react-router-dom";
-import { Card, Form, Button, Container } from 'react-bootstrap';
+import React, { useState,Fragment,useEffect,useRef } from 'react';
+import { Card, Form, Button, Container,Alert } from 'react-bootstrap';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import anime from "animejs";  
+import anime from "animejs";
+import { useAuth } from "../contexts/AuthContext"
+import { Link } from "react-router-dom"  
 import '../css/forgot.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +17,27 @@ const useStyles = makeStyles((theme) => ({
 const ForgotPage = (props) => {
     const classes = useStyles();
     const theme = useTheme();
+    const emailRef = useRef()
+    const { resetPassword } = useAuth()
+    const [error, setError] = useState("")
+    const [message, setMessage] = useState("")
+    const [loading, setLoading] = useState(false)
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+    
+        try {
+          setMessage("")
+          setError("")
+          setLoading(true)
+          await resetPassword(emailRef.current.value)
+          setMessage("Check your inbox for further instructions")
+        } catch {
+          setError("Failed to reset password")
+        }
+    
+        setLoading(false)
+      }
 
     const Welcomeanimation = () => {
         var textWrapper = document.querySelector('.wtext');
@@ -62,12 +84,22 @@ const ForgotPage = (props) => {
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-3 passwordreset">Password Reset</h2>
-                    <Form>
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    {message && <Alert variant="success">{message}</Alert>}
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group id="email">
-                            <Form.Label className="labeltext">Email:</Form.Label>
-                            <Form.Control type="email" required></Form.Control>
+                            <Form.Label className="labeltext">Email-ID:</Form.Label>
+                            <Form.Control type="email" 
+                                          placeholder="Enter your Email-ID" 
+                                          className="placeholdertext"
+                                          ref={emailRef} 
+                                          required>
+                            </Form.Control>
                         </Form.Group>
-                        <Button type="submit" className="w-100 mt-2 mb-2 buttontext">Reset Password</Button>
+                        <Button type="submit" 
+                                disabled={loading} 
+                                className="w-100 mt-2 mb-2 buttontext">Reset Password
+                        </Button>
                     </Form>
                     <div className="w-100 text-center mt-2 mb-2 logintext">
                         <Link to="/login">Login</Link>
