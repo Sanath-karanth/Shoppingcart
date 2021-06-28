@@ -9,6 +9,9 @@ import { Link, useHistory } from "react-router-dom"
 import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion"; 
 import '../css/dashboard.css';
 
+import { useSelector,useDispatch } from 'react-redux';
+import { addtocart,deletefromcart } from "../redux/cartredux/cartAction"
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display:'flex',
@@ -36,6 +39,14 @@ const Dashboard = (props) => {
         setError("Failed to log out")
       }
     }
+
+    const cartnumber = useSelector(state => state.cartnumber);
+    const dispatch = useDispatch();
+
+    // console.log('initial state',store.getState());
+    // const unsubscribe = store.subscribe(() => console.log(store.getState()));
+    // store.dispatch(buycake());
+    // unsubscribe();
     
 
     useEffect(() => {
@@ -65,13 +76,18 @@ const Dashboard = (props) => {
             <Row className="p-4">
               <Col>
               <Card>
-                  <Card.Header>Card 1</Card.Header>
+                  <Card.Header>Cart Increase - {cartnumber} </Card.Header>
                   <Card.Body>
-                    <Card.Title>Special title treatment</Card.Title>
+                    <Card.Title>Cart Title</Card.Title>
                     <Card.Text>
                       With supporting text below as a natural lead-in to additional content.
                     </Card.Text>
-                    <Button variant="outline-info">Go somewhere</Button>
+                    <Button variant="outline-info" 
+                            className="mr-3"
+                            onClick={() => dispatch(addtocart())}
+                            >ADD</Button>
+                    <Button variant="outline-info"
+                            onClick={() => dispatch(deletefromcart())}>REMOVE</Button>
                   </Card.Body>
                 </Card>
               </Col>
